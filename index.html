@@ -150,6 +150,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.06);
             transition: transform 0.2s;
             background: #e2e8f0;
+            cursor: pointer; /* Указываем, что по картинке можно кликнуть */
         }
 
         .gallery img:hover {
@@ -204,6 +205,7 @@
             object-fit: cover;
             background: #dcebf7;
             margin-bottom: 12px;
+            cursor: pointer;
         }
 
         .member-card .name {
@@ -284,6 +286,7 @@
             height: 150px;
             object-fit: cover;
             background: #dcebf7;
+            cursor: pointer;
         }
 
         .patent-grid .patent-label {
@@ -371,6 +374,55 @@
             font-size: 0.9rem;
         }
 
+        /* ===== Модальное окно для увеличения фото ===== */
+        .modal-overlay {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer; /* Клик на фон закрывает окно */
+        }
+
+        .modal-overlay.active {
+            display: flex; /* Показываем при активации */
+        }
+
+        .modal-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            cursor: default; /* Убираем указатель на самой картинке */
+            transition: transform 0.2s;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 3rem;
+            color: #fff;
+            cursor: pointer;
+            transition: color 0.2s;
+            line-height: 1;
+            font-weight: 300;
+            z-index: 10000;
+            background: none;
+            border: none;
+            padding: 0 10px;
+        }
+
+        .modal-close:hover {
+            color: #ccc;
+        }
+
         /* ===== Адаптивность ===== */
         @media (max-width: 768px) {
             h1 { font-size: 1.8rem; }
@@ -378,6 +430,7 @@
             nav button { padding: 6px 16px; font-size: 0.85rem; }
             .contact-form { padding: 24px 20px; }
             .members { grid-template-columns: 1fr 1fr; }
+            .modal-close { top: 20px; right: 20px; font-size: 2.5rem; }
         }
 
         @media (max-width: 480px) {
@@ -385,6 +438,7 @@
             .gallery { grid-template-columns: 1fr; }
             .pub-item { flex-direction: column; align-items: flex-start; }
             .pub-item .pub-desc { margin-left: 0; }
+            .modal-close { top: 15px; right: 15px; font-size: 2rem; }
         }
     </style>
 </head>
@@ -416,18 +470,19 @@
 
             <h2>Фотографии с этапов</h2>
             <div class="gallery">
-		<img src="image/minitractor.jpg" alt="Минитрактор">
-                <img src="image/tractor.jpg" alt="Эскиз">
-		<img src="image/sborka2.jpg" alt="Сборка2">
-		<img src="image/4wd.jpg" alt="4wd">
-		<img src="image/motor.jpg" alt="Мотор">
-                <img src="image/sborka.jpg" alt="Сборка">
-		<img src="image/sborka3.jpg" alt="Сборка3">
-		<img src="image/plug.jpg" alt="Плуг">
-                <img src="image/test.jpg" alt="Тестирование">
-		<img src="image/prototip.jpg" alt="Прототип">
-		<img src="image/final.jpg" alt="Финал">
-		<img src="image/aitractor.jpg" alt="ИИ">
+                <!-- Все изображения в галерее теперь имеют класс zoomable и атрибут data-zoom для обработки двойного клика -->
+                <img class="zoomable" src="image/minitractor.jpg" alt="Минитрактор">
+                <img class="zoomable" src="image/tractor.jpg" alt="Эскиз">
+                <img class="zoomable" src="image/sborka2.jpg" alt="Сборка2">
+                <img class="zoomable" src="image/4wd.jpg" alt="4wd">
+                <img class="zoomable" src="image/motor.jpg" alt="Мотор">
+                <img class="zoomable" src="image/sborka.jpg" alt="Сборка">
+                <img class="zoomable" src="image/sborka3.jpg" alt="Сборка3">
+                <img class="zoomable" src="image/plug.jpg" alt="Плуг">
+                <img class="zoomable" src="image/test.jpg" alt="Тестирование">
+                <img class="zoomable" src="image/prototip.jpg" alt="Прототип">
+                <img class="zoomable" src="image/final.jpg" alt="Финал">
+                <img class="zoomable" src="image/aitractor.jpg" alt="ИИ">
             </div>
 
             <h2>Видеоролик о разработке</h2>
@@ -438,22 +493,22 @@
             <h2>Участники команды</h2>
             <div class="members">
                 <div class="member-card">
-                    <img src="image/milko.jpg" alt="Милько Д.А.">
+                    <img class="zoomable" src="image/milko.jpg" alt="Милько Д.А.">
                     <div class="name">Дмитрий Милько</div>
                     <div class="role">Руководитель проекта</div>
                 </div>
                 <div class="member-card">
-                    <img src="image/panina.jpg" alt="Панина В.В.">
+                    <img class="zoomable" src="image/panina.jpg" alt="Панина В.В.">
                     <div class="name">Валерия Панина</div>
                     <div class="role">Старший научный сотрудник</div>
                 </div>
                 <div class="member-card">
-                    <img src="image/golagan.jpg" alt="Голаган А.В.">
+                    <img class="zoomable" src="image/golagan.jpg" alt="Голаган А.В.">
                     <div class="name">Алексей Голаган</div>
                     <div class="role">Младший научный сотрудник</div>
                 </div>
                 <div class="member-card">
-                    <img src="image/maliy.jpg" alt="Малий К.С.">
+                    <img class="zoomable" src="image/maliy.jpg" alt="Малий К.С.">
                     <div class="name">Константин Малий</div>
                     <div class="role">Лаборант</div>
                 </div>
@@ -493,45 +548,43 @@
             <p>Проект РНФ №25-26-00080 "Мини-электро-трактор". Документы на интеллектуальные права собственности.</p>
             <div class="patent-grid">
                 <div class="patent-item">
-                    <img src="image/Svidetelstvo.jpg" alt="Патент 1">
+                    <img class="zoomable" src="image/svidetelstvo_.jpg" alt="Свидетельство о государственной регистрации программы для ЭВМ №2026687189">
                     <div class="patent-label">Свидетельство о государственной регистрации программы для ЭВМ №2026687189</div>
                 </div>
                 <div class="patent-item">
-                    <img src="https://placehold.co/400x300/2d7fc1/white?text=Патент+US+2025" alt="Патент 2">
-                    <div class="patent-label">Патент US 987654</div>
+                    <img class="zoomable" src="https://placehold.co/400x300/2d7fc1/white?text=Патент+РФ" alt="Патент 2">
+                    <div class="patent-label">Патент РФ (Заявка подана)</div>
                 </div>
-                <div class="patent-item">
-                    <img src="https://placehold.co/400x300/1a3a5c/white?text=Патент+EP+2025" alt="Патент 3">
-                    <div class="patent-label">Патент EP 456789</div>
-                </div>
+                
             </div>
-        </section>
 
-        <!-- ========== СТРАНИЦА 3: ОБРАТНАЯ СВЯЗЬ ========== -->
-        <section id="page-contact" class="page">
-            <h1>Обратная связь</h1>
-            <p>Оставьте сообщение — мы свяжемся с вами в ближайшее время. Все поля обязательны для заполнения.</p>
+</section>
+<section id="page-contact" class="page">
+    <h1>Обратная связь</h1>
+    <p>Оставьте сообщение — мы свяжемся с вами в ближайшее время. Все поля обязательны для заполнения.</p>
 
-            <div class="contact-form">
-                <form id="contactForm" action="#" method="POST">
-                    <div class="form-group">
-                        <label for="name"><i class="fas fa-user"></i> Ваше имя</label>
-                        <input type="text" id="name" placeholder="Иван Иванов" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" id="email" placeholder="ivan@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message"><i class="fas fa-comment"></i> Сообщение</label>
-                        <textarea id="message" placeholder="Напишите нам..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn-submit">
-                        <i class="fas fa-paper-plane"></i> Отправить
-                    </button>
-                </form>
+    <div class="contact-form">
+        <!-- Изменяем action и method, добавляем скрытые поля для темы -->
+        <form id="contactForm" action="https://formspree.io/f/myeylpgo" method="POST">
+            <input type="hidden" name="_subject" value="Новое сообщение с сайта Мини-электро-трактор">
+            <div class="form-group">
+                <label for="name"><i class="fas fa-user"></i> Ваше имя</label>
+                <input type="text" id="name" name="name" placeholder="Иван Иванов" required>
             </div>
-        </section>
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="email" name="email" placeholder="ivan@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="message"><i class="fas fa-comment"></i> Сообщение</label>
+                <textarea id="message" name="message" placeholder="Напишите нам..." required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane"></i> Отправить
+            </button>
+        </form>
+    </div>
+</section>
 
     </main>
 
@@ -541,19 +594,25 @@
         </div>
     </footer>
 
+    <!-- ========== МОДАЛЬНОЕ ОКНО ДЛЯ УВЕЛИЧЕНИЯ ФОТО ========== -->
+    <!-- Это оверлей, который появляется при двойном клике на картинку -->
+    <div id="imageModal" class="modal-overlay">
+        <!-- Кнопка закрытия (крестик) -->
+        <button class="modal-close" id="modalClose">&times;</button>
+        <!-- Само увеличенное изображение -->
+        <img id="modalImage" src="" alt="Увеличенное фото">
+    </div>
+
     <script>
-        // ===== Навигация (переключение страниц) =====
+        // ===== НАВИГАЦИЯ (переключение страниц) =====
         const navButtons = document.querySelectorAll('#mainNav button');
         const pages = document.querySelectorAll('.page');
 
         function switchPage(pageId) {
-            // Скрыть все страницы
             pages.forEach(page => page.classList.remove('active'));
-            // Показать нужную
             const target = document.getElementById(pageId);
             if (target) target.classList.add('active');
 
-            // Обновить активную кнопку
             navButtons.forEach(btn => btn.classList.remove('active'));
             const activeBtn = Array.from(navButtons).find(btn => btn.dataset.page === pageId);
             if (activeBtn) activeBtn.classList.add('active');
@@ -563,41 +622,84 @@
             button.addEventListener('click', function() {
                 const pageId = this.dataset.page;
                 switchPage(pageId);
-                // Небольшой скролл к началу контента
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
 
-        // ===== Обработка формы =====
-        const form = document.getElementById('contactForm');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Отменяем реальную отправку
+        // ===== ОБРАБОТКА ФОРМЫ =====
+       // const form = document.getElementById('contactForm');
+       // form.addEventListener('submit', function(e) {
+         //   e.preventDefault();
 
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const message = document.getElementById('message').value.trim();
+           // const name = document.getElementById('name').value.trim();
+           // const email = document.getElementById('email').value.trim();
+           // const message = document.getElementById('message').value.trim();
 
-            if (!name || !email || !message) {
-                alert('Пожалуйста, заполните все поля.');
-                return;
-            }
+            // if (!name || !email || !message) {
+              //  alert('Пожалуйста, заполните все поля.');
+                // return;
+            // }
 
-            // Простая валидация email
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                alert('Введите корректный email.');
-                return;
-            }
+           // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          //  if (!emailPattern.test(email)) {
+               // alert('Введите корректный email.');
+             //   return;
+           // }
 
-            // Имитация отправки
-            alert(`Спасибо, ${name}! Ваше сообщение отправлено.\nМы ответим на ${email} в ближайшее время.`);
+         //   alert(`Спасибо, ${name}! Ваше сообщение отправлено.\nМы ответим на ${email} в ближайшее время.`);
+        //    form.reset();
+      //  });
 
-            // Очистка формы
-            form.reset();
+        // ===== УВЕЛИЧЕНИЕ ФОТО ПРИ ДВОЙНОМ ЩЕЛЧКЕ =====
+        // Получаем элементы модального окна
+        const modalOverlay = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+
+        // Функция открытия модалки с указанным src
+        function openModal(imageSrc) {
+            modalImage.src = imageSrc;          // Подставляем путь к картинке
+            modalOverlay.classList.add('active'); // Показываем оверлей
+            document.body.style.overflow = 'hidden'; // Блокируем прокрутку страницы
+        }
+
+        // Функция закрытия модалки
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';   // Возвращаем прокрутку
+            modalImage.src = '';                 // Очищаем src (опционально)
+        }
+
+        // Обработчик двойного клика на всех изображениях с классом .zoomable
+        document.querySelectorAll('.zoomable').forEach(img => {
+            img.addEventListener('dblclick', function(e) {
+                e.stopPropagation(); // Предотвращаем всплытие, чтобы не сработало случайно
+                const src = this.getAttribute('src');
+                if (src) {
+                    openModal(src);
+                }
+            });
         });
 
-        // ===== (опционально) Если URL содержит якорь, можно переключить страницу =====
-        // Например, если перейти по ссылке #page-publications
+        // Закрытие по клику на кнопку крестика
+        modalClose.addEventListener('click', closeModal);
+
+        // Закрытие по клику на фон (сам оверлей) – но не по картинке
+        modalOverlay.addEventListener('click', function(e) {
+            // Если клик был именно по фону (а не по img или кнопке), закрываем
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Закрытие по клавише Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // ===== (опционально) Если URL содержит якорь, переключаем страницу =====
         window.addEventListener('hashchange', function() {
             const hash = location.hash.replace('#', '');
             if (hash && document.getElementById(hash)) {
@@ -605,7 +707,6 @@
             }
         });
 
-        // При загрузке проверить хеш
         if (location.hash) {
             const hash = location.hash.replace('#', '');
             if (document.getElementById(hash)) {
